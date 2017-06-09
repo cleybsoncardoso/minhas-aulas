@@ -54,45 +54,10 @@
     <script src="js/app/models/Mensagem.js"></script>
     <script src="js/app/views/NegociacoesView.js"></script>
     <script src="js/app/views/MensagemView.js"></script>
+    <script src="js/app/services/ProxyFactory.js"></script>
 
     <script>
         let negociacaoController = new NegociacaoController();
-    </script>
-    <script>
-        let lista = new Proxy(new ListaNegociacoes(), {
-            
-            //get chama toda vez que tentar ler alguma propriedade
-            //target referencia ao objeto que esta sendo encapsulado
-            //prop referencia a propriedade
-            //receiver referencia ao proxy
-            get: function(target, prop, receiver) {
-
-                if(['adiciona', 'esvazia'].includes(prop) && typeof(target[prop]) == typeof(Function)){
-                    return function(){
-                        console.log(` interceptando ${prop}`);
-                        Reflect.apply(target[prop], target, arguments);
-                    }
-                } 
-                return Reflect.get(target, prop, receiver);
-            }
-
-            
-            /*
-            //get chama toda vez que tentar ler alguma propriedade
-            //target referencia ao objeto que esta sendo encapsulado
-            //prop referencia a propriedade
-            //value valor recebido
-            //receiver referencia ao proxy
-            set: function(target, prop, value, receiver) {
-                
-                console.log(`${target[prop]} Novo valor "${value}"`);
-                return Reflect.get(target, prop, value, receiver);
-            }
-            */
-
-        });
-
-        lista.adiciona(new Negociacao(new Date(), 1, 100));
     </script>
 
 </body>
